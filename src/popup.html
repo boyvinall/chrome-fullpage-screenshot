@@ -1,0 +1,58 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Full Page Screenshot</title>
+  <link rel="stylesheet" href="popup.css" />
+</head>
+<body>
+  <h1>Screenshot</h1>
+
+  <fieldset>
+    <legend>Capture</legend>
+    <label>
+      <input type="radio" name="scope" id="scope-full" value="full" checked />
+      Full page
+    </label>
+    <label>
+      <input type="radio" name="scope" id="scope-viewport" value="viewport" />
+      Current viewport
+    </label>
+  </fieldset>
+
+  <fieldset>
+    <legend>Method</legend>
+    <label>
+      <input type="radio" name="method" id="method-stitch" value="stitch" checked />
+      Scroll and stitch
+    </label>
+    <label>
+      <input type="radio" name="method" id="method-cdp" value="cdp" />
+      Chrome DevTools Protocol
+    </label>
+  </fieldset>
+
+  <fieldset>
+    <legend>Output</legend>
+    <label>
+      <input type="radio" name="output" id="output-download" value="download" checked />
+      Download PNG
+    </label>
+    <label>
+      <input type="radio" name="output" id="output-clipboard" value="clipboard" />
+      Copy to clipboard
+    </label>
+  </fieldset>
+
+  <button id="capture-btn" type="button">Capture</button>
+
+  <p id="status" role="status" aria-live="polite"></p>
+
+  <p id="cdp-hint" class="hint" hidden>
+    Chrome will briefly show a "started debugging this browser" banner while
+    this runs — that's expected, see the README.
+  </p>
+
+  <script src="popup.js"></script>
+</body>
+</html>
