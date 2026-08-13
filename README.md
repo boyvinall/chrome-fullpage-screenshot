@@ -2,7 +2,11 @@
 
 A small Chrome extension that captures a screenshot — full page or just the
 current viewport — and either downloads it as a PNG or copies it to the
-clipboard. It supports two capture methods, selectable in the popup:
+clipboard. Created with Claude because the previous extension I was using
+got banned from the chrome web store, so why not skip the vulns and just
+create one instead?
+
+It supports two capture methods, selectable in the popup:
 
 - **Scroll and stitch** (default) — scrolls the page in viewport-height
   steps, screenshots each step with `chrome.tabs.captureVisibleTab`, and
