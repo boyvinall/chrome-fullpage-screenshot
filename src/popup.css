@@ -34,8 +34,17 @@ label {
   cursor: pointer;
 }
 
+.button-row {
+  display: flex;
+  gap: 8px;
+}
+
 button {
-  width: 100%;
+  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
   padding: 8px 0;
   background: #1a73e8;
   color: #fff;
@@ -44,6 +53,10 @@ button {
   font-size: 13px;
   font-weight: 500;
   cursor: pointer;
+}
+
+.btn-icon {
+  flex-shrink: 0;
 }
 
 button:hover {

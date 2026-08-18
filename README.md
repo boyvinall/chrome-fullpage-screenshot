@@ -96,9 +96,9 @@ inner scroll container, or if a scroll-and-stitch capture comes back wrong.
 | `debugger` | Only exercised when you pick the **CDP** method — the only way to call `Page.captureScreenshot`/`Page.getLayoutMetrics` with `captureBeyondViewport`. This is the same permission real DevTools implicitly has, just exposed to an extension. It's the scariest-looking permission Chrome offers: while attached, Chrome shows a **"\<extension\> started debugging this browser"** banner across the browser window. That's a hardcoded Chrome behavior for *any* extension using `chrome.debugger` and can't be suppressed. This extension attaches, takes one screenshot, and detaches immediately, so the banner should only flash briefly. Two consequences worth knowing: you can't attach to `chrome://` pages, the Web Store, or other extensions' pages (Chrome blocks it), and only one debugger client can attach to a tab at a time — if real DevTools is already open on that tab, the capture will fail until you close it. |
 | `scripting` | Used by the **scroll and stitch** method to run the scroll steps (`window.scrollTo`) and read page metrics (`scrollHeight`, etc.) inside the tab. Scoped by `activeTab`, same as `debugger` — no standing access to any page. |
 | `activeTab` | Grants temporary access to *only* the tab you're currently looking at, and only because you clicked the toolbar icon to open the popup. Combined with `debugger`/`scripting`, this is enough to act on that one tab — the extension deliberately does **not** request `<all_urls>`/host permissions, so it has no standing access to anything you haven't explicitly invoked it on. |
-| `downloads` | Needed to save the captured PNG to disk when you pick "Download PNG". |
+| `downloads` | Needed to save the captured PNG to disk when you click **Download**. |
 
-"Copy to clipboard" uses the standard `navigator.clipboard.write()` Web API
+**Copy** uses the standard `navigator.clipboard.write()` Web API
 directly from the popup's click handler, which counts as a user gesture —
 that doesn't require the `clipboardWrite` extension permission, so it isn't
 requested.
@@ -175,9 +175,8 @@ extension's card in `chrome://extensions`.
 3. Choose **Full page** or **Current viewport**.
 4. Choose a capture method — **Scroll and stitch** (default) or
    **Chrome DevTools Protocol** (see "Choosing a capture method" above).
-5. Choose **Download PNG** or **Copy to clipboard**.
-6. Click **Capture**.
+5. Click **Copy** or **Download**.
 
-The status line under the button reports the result (saved filename, "Copied
+The status line under the buttons reports the result (saved filename, "Copied
 to clipboard", or an error). The debugger-banner hint only appears when the
 CDP method is selected.

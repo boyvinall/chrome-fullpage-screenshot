@@ -3,8 +3,8 @@
 const els = {
   scopeFull: document.getElementById('scope-full'),
   methodCdp: document.getElementById('method-cdp'),
-  outputDownload: document.getElementById('output-download'),
-  captureBtn: document.getElementById('capture-btn'),
+  copyBtn: document.getElementById('copy-btn'),
+  downloadBtn: document.getElementById('download-btn'),
   status: document.getElementById('status'),
   cdpHint: document.getElementById('cdp-hint'),
 };
@@ -20,10 +20,6 @@ function getScope() {
 
 function getMethod() {
   return els.methodCdp.checked ? 'cdp' : 'stitch';
-}
-
-function getOutput() {
-  return els.outputDownload.checked ? 'download' : 'clipboard';
 }
 
 // The debugger banner only applies to the CDP method — don't show a hint
@@ -108,14 +104,17 @@ async function copyImageToClipboard(base64) {
   await navigator.clipboard.write([new ClipboardItem({ [blob.type]: blob })]);
 }
 
-els.captureBtn.addEventListener('click', async () => {
-  els.captureBtn.disabled = true;
+// Both buttons trigger the same capture; only what happens with the
+// resulting PNG differs. Both stay disabled for the duration of either
+// action, since only one capture can usefully run at a time.
+async function runCapture(output) {
+  els.copyBtn.disabled = true;
+  els.downloadBtn.disabled = true;
   setStatus('Capturing…');
   try {
     const tab = await getActiveTab();
     const scope = getScope();
     const method = getMethod();
-    const output = getOutput();
     const base64 = await captureScreenshot(tab.id, scope, method);
     if (output === 'download') {
       const filename = await downloadImage(base64);
@@ -127,6 +126,10 @@ els.captureBtn.addEventListener('click', async () => {
   } catch (err) {
     setStatus(err.message || 'Something went wrong.', true);
   } finally {
-    els.captureBtn.disabled = false;
+    els.copyBtn.disabled = false;
+    els.downloadBtn.disabled = false;
   }
-});
+}
+
+els.copyBtn.addEventListener('click', () => runCapture('clipboard'));
+els.downloadBtn.addEventListener('click', () => runCapture('download'));
